@@ -23,11 +23,13 @@ enum CommandType {
 
 // func that execute shell/bash commands with errors handling
 func safeWrapper(_ command: String, commandType: CommandType) throws -> String {
+    // Using the Process class, your program can run another program as a subprocess and can monitor that program’s execution
     let task = Process()
     let pipe = Pipe() // file handling class
 
     task.standardOutput = pipe // Sets the standard output for the receiver
     task.standardError = pipe // Sets the standard error for the receiver
+    // - c flag - Use Cscore processing of the scorefile
     task.arguments = ["-c", command] // Sets the command arguments that should be used to launch the executable
     task.executableURL = URL(fileURLWithPath: commandType.rawValue)
 
