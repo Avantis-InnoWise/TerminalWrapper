@@ -57,3 +57,37 @@ do {
 } catch {
     print(error)
 }
+
+
+
+var cipher: [UInt8] = []
+
+// XOR encryption
+func encrypt(string: String, cipher: inout [UInt8]) -> [UInt8] {
+    let text = [UInt8](string.utf8)
+    cipher = [UInt8](string.reversed().description.utf8)
+    var encrypted = [UInt8]()
+    for t in text.enumerated() {
+        encrypted.append(t.element ^ cipher[t.offset])
+    }
+    return encrypted
+}
+
+// XOR decryption
+func decrypt(encrypted: [UInt8], cipher: [UInt8]) -> String? {
+    var decrypted = [UInt8]()
+    for t in encrypted.enumerated() {
+        decrypted.append(t.element ^ cipher[t.offset])
+    }
+    return String(bytes: decrypted, encoding: .utf8)
+}
+
+let encrypted = encrypt(string: "pwd", cipher: &cipher)
+if let decrypted = decrypt(encrypted: encrypted, cipher: cipher) {
+    do {
+        let output = try safeWrapper(decrypted, commandType: .shell)
+        print(output)
+    } catch { print(error) }
+} else {
+    print("decryption error")
+}
