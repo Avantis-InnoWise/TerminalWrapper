@@ -38,9 +38,11 @@ func safeWrapper(_ command: String, commandType: CommandType) throws -> String {
     } catch { throw error }
 
     let data = pipe.fileHandleForReading.readDataToEndOfFile()
-    let output = String(data: data, encoding: .utf8)!
-
-    return output
+    if let output = String(data: data, encoding: .utf8) {
+        return output
+    } else {
+        return "command execution failed"
+    }
 }
 
 do {
