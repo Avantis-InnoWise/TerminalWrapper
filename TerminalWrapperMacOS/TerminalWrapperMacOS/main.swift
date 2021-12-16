@@ -7,13 +7,9 @@
 
 import Foundation
 
-<<<<<<< HEAD
-print("Hello, World!!")
-=======
 enum CommandType {
     case bash
     case shell
->>>>>>> feature/dr/wrappers
 
     var rawValue: String {
         switch self {
